@@ -1,0 +1,7 @@
+name: ConsolePlugin
+version: '${project.version}'
+main: xyz.raitaki.consoleplugin.ConsolePlugin
+api-version: 1.19
+author: Raitaki
+commands:
+  start:
