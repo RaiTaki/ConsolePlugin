@@ -14,8 +14,8 @@ public final class ConsolePlugin extends JavaPlugin {
 
     @Getter private static ConsolePlugin instance;
     @Getter private static ConsoleViewer viewer;
-    Logger logger;
-    LogAppender appender;
+    private Logger logger;
+    private LogAppender appender;
 
     @Override
     public void onEnable() {
@@ -34,5 +34,6 @@ public final class ConsolePlugin extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         logger.removeAppender(appender);
+        viewer.removeDisplays();
     }
 }

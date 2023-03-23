@@ -98,4 +98,13 @@ public class ConsoleViewer {
         String truncatedText = text.substring(0, Math.min(text.length(), 62)); // truncate text if it exceeds 62 characters
         return String.format("%-62s", truncatedText); // left-align the truncated text
     }
+
+    public void removeDisplays(){
+        for(TextDisplay display : displays){
+            display.remove();
+        }
+        for(TextDisplay display : straightLines){
+            display.remove();
+        }
+    }
 }
