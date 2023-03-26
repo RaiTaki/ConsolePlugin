@@ -26,8 +26,7 @@ public class StartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(!(commandSender instanceof Player p)) return false;
-            p.teleport(ConsolePlugin.getViewer().getLocation());
-
+            //p.teleport(ConsolePlugin.getViewer().getLocation());
         return false;
     }
 }

@@ -41,6 +41,7 @@ public class ConsoleViewer {
             line.setDisplayWidth(1f);
             line.setTransformation(new Transformation(new Vector3f(0, 0, 0), new Quaternionf(0, 0, 0, 1), new Vector3f(0.2f, 0.2f, 4), new Quaternionf(0, 0, 0, 1)));
             displays.add(line);
+            line.teleport(loc.clone());
         }
         addStraightLine();
     }
@@ -57,7 +58,6 @@ public class ConsoleViewer {
         if(texts.size() > 10){
             texts.remove(10);
         }
-        Bukkit.broadcastMessage(texts.size()+"");
     }
 
     public void update(){
@@ -76,7 +76,6 @@ public class ConsoleViewer {
         int z = (int) Math.floor(Double.parseDouble(coords[2]));
         String newLogMsg = String.format("%s[world]%d, %d, %d)", parts[0], x, y, z);
         newLogMsg = newLogMsg.replaceAll("\\[\\/\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+\\]", "[/CENSORED:1]");
-        Bukkit.broadcastMessage(newLogMsg);
         return newLogMsg;
     }
 
