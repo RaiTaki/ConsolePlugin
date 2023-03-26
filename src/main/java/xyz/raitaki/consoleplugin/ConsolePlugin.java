@@ -22,7 +22,7 @@ public final class ConsolePlugin extends JavaPlugin {
         // Plugin startup logic
         instance = this;
         getCommand("start").setExecutor(new StartCommand());
-        viewer = new ConsoleViewer(new Location(Bukkit.getWorld("world"), 42,108,-1));
+        viewer = new ConsoleViewer(new Location(Bukkit.getWorld("world"), -52,118,18));
 
         logger = (Logger) LogManager.getRootLogger();
         appender = new LogAppender();

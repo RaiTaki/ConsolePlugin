@@ -26,27 +26,8 @@ public class StartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(!(commandSender instanceof Player p)) return false;
+            p.teleport(ConsolePlugin.getViewer().getLocation());
 
-
-        /*TextDisplay text = p.getWorld().spawn(p.getLocation().add(0,2,0), TextDisplay.class);
-        text.text(Component.text("Hello World!aaaaaaaaaaaaaaaa"));
-        text.setBillboard(Display.Billboard.FIXED);
-        text.setShadowed(true);
-        text.setBackgroundColor(Color.AQUA.setAlpha(0));
-        text.setDisplayHeight(1f);
-        text.setDisplayWidth(1f);
-        text.setTransformation(new Transformation(new Vector3f(0, 0, 0), new Quaternionf(0, 0, 0, 1), new Vector3f(0.5f, 0.5f, 4), new Quaternionf(0, 0, 0, 1)));
-        new BukkitRunnable(){
-            float f = 0;
-            public void run() {
-                f += 0.5f;
-                Bukkit.broadcastMessage(Math.toRadians(f) + " " + f);
-                Location loc = text.getLocation();
-                loc.setYaw(f);
-                loc.setPitch(f);
-                text.teleport(loc);
-            }
-        }.runTaskTimerAsynchronously(ConsolePlugin.getInstance(), 0, 1);*/
         return false;
     }
 }

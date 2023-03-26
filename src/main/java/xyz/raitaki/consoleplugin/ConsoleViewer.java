@@ -22,7 +22,7 @@ public class ConsoleViewer {
 
     @Getter private List<TextDisplay> displays;
     @Getter private List<TextDisplay> straightLines;
-    @Getter private List<String> texts;
+    @Getter private List<ConsoleText> texts;
     @Getter private Location location;
 
     public ConsoleViewer(Location loc){
@@ -46,20 +46,24 @@ public class ConsoleViewer {
     }
 
     public void addText(String text){
-        if(!isLogMessage(text)){
-            texts.add(0, text);
+        if(isLogMessage(text)){
+            texts.add(0, new ConsoleText("").setTextByTime(replaceLocations(text),1, true));
+            //texts.add(0, text);
         }
         else{
-            texts.add(0,replaceLocations(text));
+            texts.add(0, new ConsoleText("").setTextByTime(text,1, true));
+            //texts.add(0,replaceLocations(text));
         }
         if(texts.size() > 10){
             texts.remove(10);
-            Bukkit.broadcastMessage(texts.size()+"");
         }
+        Bukkit.broadcastMessage(texts.size()+"");
+    }
 
+    public void update(){
         for(int i = 0; i < texts.size(); i++){
             //reverse the text list and display it
-            displays.get(i).text(Component.text(texts.get(i)));
+            displays.get(i).text(Component.text(texts.get(i).getText()));
         }
     }
 
