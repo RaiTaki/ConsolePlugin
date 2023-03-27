@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.raitaki.consoleplugin.utils.DefaultFontInfo;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class ConsoleText {
 
     public ConsoleText setTextByTime(String text, int charPerSecond, boolean sound){
         playing = false;
+        String finaltext = checkPixelLength(text);
         if(viewer == null){
             this.text = text;
             ConsolePlugin.getViewer().update();
@@ -34,15 +36,15 @@ public class ConsoleText {
         new BukkitRunnable(){
             @Override
             public void run() {
-                if(text.length() <= ConsoleText.this.text.length() + charPerSecond){
+                if(finaltext.length() <= ConsoleText.this.text.length() + charPerSecond){
                     this.cancel();
-                    ConsoleText.this.text = text;
+                    ConsoleText.this.text = finaltext;
                     playing = false;
                     viewer.update();
                     return;
                 }
                 else {
-                    ConsoleText.this.text = text.substring(0, ConsoleText.this.text.length() + charPerSecond);
+                    ConsoleText.this.text = finaltext.substring(0, ConsoleText.this.text.length() + charPerSecond);
                 }
                 if(!isAnyTimerPlays() && sound){
                     viewer.getLocation().getWorld().playSound(viewer.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 0.6f);
@@ -62,5 +64,39 @@ public class ConsoleText {
             }
         }
         return false;
+    }
+
+    private String checkPixelLength(String text){
+        int length = 0;
+        for(char c : text.toCharArray()){
+            length += DefaultFontInfo.getDefaultFontInfo(c).getLength();
+        }
+        int length2 = 0;
+        for(char c : "==============================================================".toCharArray()){
+            length2 += DefaultFontInfo.getDefaultFontInfo(c).getLength();
+        }
+        Bukkit.broadcastMessage(length + " text");
+        Bukkit.broadcastMessage(length2 + " line");
+        if(length > length2){
+            return text;
+        }
+        int leftPixels = Math.abs(length2 - length);
+        int leftSpaces = leftPixels / DefaultFontInfo.SPACE.getLength();
+
+        for(int i = 0; i < leftSpaces; i++){
+            text += " ";
+            leftPixels -= DefaultFontInfo.SPACE.getLength();
+        }
+
+        for(int i = 0; i < leftPixels; i++){
+            text += "'";
+        }
+        int length3 = 0;
+        for(char c : text.toCharArray()){
+            length3 += DefaultFontInfo.getDefaultFontInfo(c).getLength();
+        }
+        Bukkit.broadcastMessage(leftPixels + " leftpixels");
+        Bukkit.broadcastMessage(length3 + " lasttext");
+        return text;
     }
 }
