@@ -34,7 +34,7 @@ public class ConsoleViewer {
         for(int i = 0; i < 10; i++){
             TextDisplay line = loc.getWorld().spawn(loc.add(0, 0.06, 0), TextDisplay.class);
             line.setBillboard(Display.Billboard.FIXED);
-            line.setShadowed(false);
+            line.setShadowed(true);
             line.setLineWidth(9999);
             //line.setBackgroundColor(Color.AQUA.setAlpha(0));
             line.setDisplayHeight(1f);
@@ -87,7 +87,7 @@ public class ConsoleViewer {
     private void addStraightLine(){
         TextDisplay line = location.getWorld().spawn(location.add(0, 0.06, 0), TextDisplay.class);
         line.setBillboard(Display.Billboard.FIXED);
-        line.setShadowed(false);
+        line.setShadowed(true);
         line.setLineWidth(9999);
         //line.setBackgroundColor(Color.AQUA.setAlpha(0));
         line.setDisplayHeight(1f);

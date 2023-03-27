@@ -27,7 +27,8 @@ public class ConsoleText {
 
     public ConsoleText setTextByTime(String text, int charPerSecond, boolean sound){
         playing = false;
-        String finaltext = checkPixelLength(text);
+        String finaltext = text;
+        //String finaltext = checkPixelLength(text);
         if(viewer == null){
             this.text = text;
             ConsolePlugin.getViewer().update();
@@ -72,7 +73,7 @@ public class ConsoleText {
             length += DefaultFontInfo.getDefaultFontInfo(c).getLength();
         }
         int length2 = 0;
-        for(char c : "==============================================================".toCharArray()){
+        for(char c : viewer.getStraightLines().get(0).getText().toCharArray()){
             length2 += DefaultFontInfo.getDefaultFontInfo(c).getLength();
         }
         Bukkit.broadcastMessage(length + " text");
