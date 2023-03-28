@@ -2,6 +2,7 @@ package xyz.raitaki.consoleplugin;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.raitaki.consoleplugin.utils.DefaultFontInfo;
@@ -27,8 +28,9 @@ public class ConsoleText {
 
     public ConsoleText setTextByTime(String text, int charPerSecond, boolean sound){
         playing = false;
-        String finaltext = text;
+        String finaltext = replaceColorCodes(text);
         //String finaltext = checkPixelLength(text);
+
         if(viewer == null){
             this.text = text;
             ConsolePlugin.getViewer().update();
@@ -69,18 +71,18 @@ public class ConsoleText {
 
     private String checkPixelLength(String text){
         int length = 0;
-        for(char c : text.toCharArray()){
-            length += DefaultFontInfo.getDefaultFontInfo(c).getLength();
-        }
         int length2 = 0;
-        for(char c : viewer.getStraightLines().get(0).getText().toCharArray()){
+
+        for(char c : text.toCharArray())
+            length += DefaultFontInfo.getDefaultFontInfo(c).getLength();
+
+        for(char c : viewer.getStraightLines().get(0).getText().toCharArray())
             length2 += DefaultFontInfo.getDefaultFontInfo(c).getLength();
-        }
-        Bukkit.broadcastMessage(length + " text");
-        Bukkit.broadcastMessage(length2 + " line");
-        if(length > length2){
+
+
+        if(length > length2)
             return text;
-        }
+
         int leftPixels = Math.abs(length2 - length);
         int leftSpaces = leftPixels / DefaultFontInfo.SPACE.getLength();
 
@@ -92,12 +94,12 @@ public class ConsoleText {
         for(int i = 0; i < leftPixels; i++){
             text += "'";
         }
-        int length3 = 0;
-        for(char c : text.toCharArray()){
-            length3 += DefaultFontInfo.getDefaultFontInfo(c).getLength();
-        }
-        Bukkit.broadcastMessage(leftPixels + " leftpixels");
-        Bukkit.broadcastMessage(length3 + " lasttext");
+
         return text;
+    }
+
+    private String replaceColorCodes(String text){
+        text = text.replace("\u007F", "&");
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 }

@@ -4,18 +4,15 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.util.Transformation;
+import org.bukkit.util.Vector;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import xyz.raitaki.consoleplugin.utils.StringAlignUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class ConsoleViewer {
@@ -97,11 +94,6 @@ public class ConsoleViewer {
         straightLines.add(line);
     }
 
-    public String leftAlign(String text) {
-        String truncatedText = text.substring(0, Math.min(text.length(), 62)); // truncate text if it exceeds 62 characters
-        return String.format("%-62s", truncatedText); // left-align the truncated text
-    }
-
     public void removeDisplays(){
         for(TextDisplay display : displays){
             display.remove();
@@ -109,5 +101,42 @@ public class ConsoleViewer {
         for(TextDisplay display : straightLines){
             display.remove();
         }
+    }
+
+    public void teleport(Location loc){
+        this.location = loc.clone();
+        straightLines.get(0).teleport(this.location.add(0,0.06,0));
+        for(TextDisplay display : displays){
+            display.teleport(this.location.add(0,0.06,0));
+        }
+        straightLines.get(1).teleport(this.location.add(0,0.06,0));
+
+        rotate(loc.getPitch());
+    }
+
+    public void rotate(float pitch){
+        Location center = getCenterLocation();
+
+        for(TextDisplay display : displays){
+            Location loc = calculateRotation(center, display.getLocation(), pitch);
+            display.teleport(loc);
+        }
+        for(TextDisplay display : straightLines){
+            Location loc = calculateRotation(center, display.getLocation(), pitch);
+            display.teleport(loc);
+        }
+    }
+
+    public Location getCenterLocation(){
+        return this.location.clone().add(0,0.06*7,0);
+    }
+
+    public Location calculateRotation(Location center, Location loc, double pitch){
+        Location diffrence = loc.clone().subtract(center);
+        Vector v = diffrence.toVector();
+        v.rotateAroundY(Math.toRadians(loc.getYaw()));
+        v.rotateAroundX(Math.toRadians(pitch));
+
+        return center.clone().add(v);
     }
 }
