@@ -2,5 +2,6 @@
 
 gonna update plugin later
 
-Example image:
-![image](https://user-images.githubusercontent.com/55250747/228060084-d56cebd1-2cf6-4419-9c92-b6df00f4bbac.png)
+Example screenshot of console:
+![image](https://user-images.githubusercontent.com/55250747/228246482-f716bd29-6a48-40c9-928e-d6199e60604e.png)
+
