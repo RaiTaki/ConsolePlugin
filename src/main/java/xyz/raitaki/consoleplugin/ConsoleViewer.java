@@ -103,15 +103,23 @@ public class ConsoleViewer {
         }
     }
 
-    public void teleport(Location loc){
+    public void teleport(Location loc, boolean rotateOnXAxis){
         this.location = loc.clone();
-        straightLines.get(0).teleport(this.location.add(0,0.06,0));
-        for(TextDisplay display : displays){
-            display.teleport(this.location.add(0,0.06,0));
-        }
-        straightLines.get(1).teleport(this.location.add(0,0.06,0));
 
-        rotate(loc.getPitch());
+        Location line1loc = this.location.add(0,0.06,0).clone();
+        line1loc.setPitch(-loc.getPitch());
+        straightLines.get(0).teleport(line1loc);
+        for(TextDisplay display : displays){
+            Location displayLocation = this.location.add(0,0.06,0).clone();
+            displayLocation.setPitch(-loc.getPitch());
+            display.teleport(displayLocation);
+        }
+        Location line2loc = this.location.clone().add(0,0.06,0);
+        line2loc.setPitch(-loc.getPitch());
+        straightLines.get(1).teleport(line2loc);
+
+        if(rotateOnXAxis)
+            rotate(this.location.getPitch());
     }
 
     public void rotate(float pitch){
@@ -134,8 +142,11 @@ public class ConsoleViewer {
     public Location calculateRotation(Location center, Location loc, double pitch){
         Location diffrence = loc.clone().subtract(center);
         Vector v = diffrence.toVector();
-        v.rotateAroundY(Math.toRadians(loc.getYaw()));
+
+
+
         v.rotateAroundX(Math.toRadians(pitch));
+        v.rotateAroundY(Math.toRadians(loc.getYaw()));
 
         return center.clone().add(v);
     }
